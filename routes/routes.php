@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectCategoryController;
-
+use App\Http\Controllers\AttachmentController;
 
 
     
@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/user/update/{id}', [UserController::class, 'edit'])->name('updateUserForm');
         Route::PUT('/user/update/{id}', [UserController::class, 'update'])->name('updateUser');
         Route::DELETE('/user/{id}', [UserController::class, 'destroy'])->name('deleterUser');
+        Route::post('/activeUser', [UserController::class, 'activeUser'])->name('activeUser');
 
         // Project Category Routings
 
@@ -47,6 +48,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/project/update/{id}', [ProjectController::class, 'edit'])->name('updateProjectForm');
         Route::PUT('/project/update/{id}', [ProjectController::class, 'update'])->name('updateProject');
         Route::DELETE('/project/delete/{id}', [ProjectController::class, 'destroy'])->name('deleterProject');
+        
+        // Attachemnt Routing
+
+        Route::post('/deleterAttachement', [AttachmentController::class, 'deleteattachement'])->name('deleterAttachement');
         
     });
 

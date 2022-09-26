@@ -28,6 +28,7 @@
                             <th>Adhar</th>
                             <th>PAN</th>
                             <th>Profile</th>
+                            <th>Active</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -41,6 +42,7 @@
                                <td>{{ $user->adhar_number }}</td>
                                <td>{{ $user->pan_number }}</td>
                                <td>{{ $user->job_profile }}</td>
+                               <td><input class="toggle-trigger" type="checkbox" data-toggle="toggle" onchange="BanOrActive(this,'{{ $user->id }}');" {{ ($user->active)? 'checked' : '' }}></td>
                                <td>
                                     <div class="flex align-items-center">
                                         <a href="{{route('updateUserForm',$user->id)}}" class="navigation-btn btn btn-success mr-2">
@@ -58,3 +60,30 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    function BanOrActive(el,userid){
+        if(userid != undefined && userid != ''){
+            var active = 0;
+            if($(el).is(":checked")){
+                active = 1;
+            }
+            $.ajax({
+                type:'POST',
+                url:"{{ route('activeUser') }}",
+                data:{id : userid, active : active},
+                success:function(data){
+                        if($.isEmptyObject(data.error)){
+                            // location.reload();
+                        }else{
+                            console.log(data.error);
+                        }
+                }
+                });
+        }
+    }
+</script>

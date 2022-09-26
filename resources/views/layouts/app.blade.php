@@ -14,11 +14,13 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/select2/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('js/select2/select2.min.js') }}" defer></script>
+        <script src="{{ asset('js/bootstrap-toggle.min.js') }}" defer></script>
         <script src="{{ asset('js/datepicker.js') }}" defer></script>
         <script src="{{ asset('js/custom.js') }}" defer></script>
         

@@ -137,34 +137,42 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'phone' => 'required|digits:10',
-            'whatsapp' => 'max:10',
-            'adhar_number' => 'required|integer|digits:12',
-            'pan_number' => 'max:10',
-            'total_experience' => 'required|string',
-            'job_profile' => 'required|string',
+            'status' => 'required|string|max:255',
+            'assign_by' => 'required|integer',
         ]);
-
-        if($request->active == 1){
-            $verified_at = date('Y-m-d H:i:s');
-        }else{
-            $verified_at = NULL;
-        }
         
+        $UserIds = $request->assign_to;
+        $project->assignTo()->attach($UserIds);
+        if($request->hasfile('attachment'))
+         {
+            foreach($request->file('attachment') as $key => $attachment)
+            {
+                $fileName = time().'.'.$attachment->extension();
+                $path = $attachment->store('uploads');
+                $name = $attachment->getClientOriginalName();
+                $size = Storage::size($path);
+                $mime = $attachment->getClientMimeType();
+
+                $attachm = new Attahcment;
+                $attachm->name = $name;
+                $attachm->url = $path;
+                $attachm->size = $size;
+                $attachm->mime = $mime;
+                $attachm->attachable_id = $project->id;
+                $attachm->attachable_type = 'project';
+
+                $project->attachments()->save($attachm);
+            }
+        }
+
         $project->name = $request->name;
-        $project->email = $request->email;
-        $project->address = $request->address;
-        $project->phone = $request->phone;
-        $project->whatsapp = $request->whatsapp;
-        $project->adhar_number = $request->adhar_number;
-        $project->pan_number = $request->pan_number;
-        $project->total_experience = $request->total_experience;
-        $project->job_profile = $request->job_profile;
-        $project->fathername = $request->fathername;
-        $project->current_salary = $request->current_salary;
-        $project->active = $request->active;
-        // $project->email_verified_at = $verified_at;
+        $project->status = $request->status;
+        $project->duration = $request->duration;
+        $project->start_date = $request->start_date;
+        $project->project_details = $request->project_details;
+        $project->cat_id = $request->cat_id;
+        $project->assign_by = $request->assign_by;
+        
         $project->save();
         return redirect('projects')->with('message','Project Updated Successfully.');
     }
@@ -183,7 +191,20 @@ class ProjectController extends Controller
         return redirect('projects')->with('success', 'Project is successfully deleted');
     }
 
-    public function project_filter(){
-        
-    }
+    // public function deleteattachement($url)
+    // {
+    //     if(Storage::exists($url)){
+    //         Storage::delete($url);
+
+    //         $data = ['success' => 'File Deleted.'];
+    //         /*
+    //             Delete Multiple File like this way
+    //             Storage::delete(['upload/test.png', 'upload/test2.png']);
+    //         */
+    //     }else{
+    //         $data = ['error' => 'File does not exists.'];
+    //     }
+
+    //     return response()->json($data);
+    // }
 }

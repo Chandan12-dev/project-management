@@ -181,4 +181,18 @@ class UserController extends Controller
          }
         return response()->json($response);
     }
+
+    public function activeUser(Request $request){
+        if($request->id){
+            $user = User::findOrFail($request->id);
+            $user->active = $request->active;
+            $user->save();
+
+            $data = ['success' => 'User Updated Successfully.'];
+        }else{
+            $data = ['error' => 'An error Occured. Please try again.'];
+        }
+
+        return response()->json($data);
+    }
 }
