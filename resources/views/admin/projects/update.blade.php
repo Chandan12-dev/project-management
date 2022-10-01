@@ -31,6 +31,8 @@
                             <select id="status" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" type="text" name="status" required>
                                 <option value="hold" {{ ($project->status == 'hold')? 'selected' : '' }}>Hold</option>
                                 <option value="running" {{ ($project->status == 'running')? 'selected' : '' }}>Running</option>
+                                <option value="client_reply_waiting" {{ ($project->status == 'client_reply_waiting')? 'selected' : '' }}>Client Reply Waiting</option>
+                                <option value="failed" {{ ($project->status == 'failed')? 'selected' : '' }}>Failed</option>
                                 <option value="completed" {{ ($project->status == 'completed')? 'selected' : '' }}>Completed</option>
                             </select>
                         </div>

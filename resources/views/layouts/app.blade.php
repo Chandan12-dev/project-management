@@ -27,8 +27,13 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
+            <?php if(auth()->user()->role == 'admin'){ ?>
             @include('layouts.navigation')
-
+            <?php }elseif(auth()->user()->role == 'user'){ ?>
+            @include('layouts.navigation_user')
+            <?php }else{ ?>
+            @include('layouts.guest')
+            <?php } ?>
             <!-- Page Heading -->
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

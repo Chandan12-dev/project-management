@@ -32,12 +32,12 @@
                     </x-slot>
 
                     <x-slot name="content" >
-                        <x-dropdown-link :href="route('projects')">
+                        <x-responsive-nav-link :href="route('projects')">
                             {{ __('Projects') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('projectCategory')">
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('projectCategory')">
                             {{ __('Project Category') }}
-                        </x-dropdown-link>
+                        </x-responsive-nav-link>
                     </x-slot>
                 </x-dropdown>
                     </div>
@@ -60,15 +60,18 @@
                     </x-slot>
 
                     <x-slot name="content" >
+                        <x-responsive-nav-link :href="route('adminProfile')">
+                            {{ __('Profile') }}
+                        </x-responsive-nav-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-responsive-nav-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            </x-responsive-nav-link>
                         </form>
                     </x-slot>
                 </x-dropdown>
@@ -102,6 +105,9 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('adminProfile')">
+                    {{ __('Profile') }}
+                </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

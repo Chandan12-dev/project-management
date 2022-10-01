@@ -35,13 +35,13 @@
                         @foreach ($users as $user)
                             <tr>
                                <td>{{ $user->id }}</td>
-                               <td>{{ $user->name }}</td>
-                               <td>{{ $user->fathername }}</td>
+                               <td>{{ ucfirst($user->name) }}</td>
+                               <td>{{ ucfirst($user->fathername) }}</td>
                                <td>{{ $user->email }}</td>
                                <td>{{ $user->phone }}</td>
                                <td>{{ $user->adhar_number }}</td>
                                <td>{{ $user->pan_number }}</td>
-                               <td>{{ $user->job_profile }}</td>
+                               <td>{{ ucfirst($user->job_profile) }}</td>
                                <td><input class="toggle-trigger" type="checkbox" data-toggle="toggle" onchange="BanOrActive(this,'{{ $user->id }}');" {{ ($user->active)? 'checked' : '' }}></td>
                                <td>
                                     <div class="flex align-items-center">

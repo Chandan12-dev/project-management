@@ -9,6 +9,7 @@ use App\Models\Attahcment;
 use App\Models\ProjectUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -108,7 +109,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::findOrFail($id);
-        return view('admin.projects.update',compact('project'));
+        return view('user.projects.view',compact('project'));
     }
 
     /**
@@ -207,4 +208,9 @@ class ProjectController extends Controller
 
     //     return response()->json($data);
     // }
+
+    public function userprojects(){
+        $projects = Auth::user()->projects;
+        return view('user.projects.index',compact('projects'));
+    }
 }
