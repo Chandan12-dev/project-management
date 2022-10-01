@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -180,5 +181,111 @@ class UserController extends Controller
             ];
          }
         return response()->json($response);
+    }
+
+    public function activeUser(Request $request){
+        if($request->id){
+            $user = User::findOrFail($request->id);
+            $user->active = $request->active;
+            $user->save();
+
+            $data = ['success' => 'User Updated Successfully.'];
+        }else{
+            $data = ['error' => 'An error Occured. Please try again.'];
+        }
+
+        return response()->json($data);
+    }
+
+    public function adminProfile(){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        return view('admin.adminProfile',compact('user'));
+    }
+
+    public function userProfile(){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        return view('user.userProfile',compact('user'));
+    }
+
+    public function updateUserProfile(Request $request)
+    {
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        if($request->resume){
+            $request->validate([
+                'resume' => 'mimes:pdf,xlx,csv|max:2048',
+            ]);
+            $fileName = time().'.'.$request->resume->extension();  
+            $request->resume->move(public_path('resume'), $fileName);
+            $user->cv = $fileName;
+        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|digits:10',
+            'whatsapp' => 'max:10',
+            'adhar_number' => 'required|integer|digits:12',
+            'pan_number' => 'max:10',
+            'total_experience' => 'required|string',
+            'job_profile' => 'required|string',
+        ]);
+        
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->whatsapp = $request->whatsapp;
+        $user->adhar_number = $request->adhar_number;
+        $user->pan_number = $request->pan_number;
+        $user->total_experience = $request->total_experience;
+        $user->job_profile = $request->job_profile;
+        $user->fathername = $request->fathername;
+        $user->current_salary = $request->current_salary;
+
+        $user->save();
+
+        return redirect('userProfile')->with('message','User Updated Successfully.');
+    }
+
+    public function updateAdminProfile(Request $request)
+    {
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        if($request->resume){
+            $request->validate([
+                'resume' => 'mimes:pdf,xlx,csv|max:2048',
+            ]);
+            $fileName = time().'.'.$request->resume->extension();  
+            $request->resume->move(public_path('resume'), $fileName);
+            $user->cv = $fileName;
+        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|digits:10',
+            'whatsapp' => 'max:10',
+            'adhar_number' => 'required|integer|digits:12',
+            'pan_number' => 'max:10',
+            'total_experience' => 'required|string',
+            'job_profile' => 'required|string',
+        ]);
+        
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->whatsapp = $request->whatsapp;
+        $user->adhar_number = $request->adhar_number;
+        $user->pan_number = $request->pan_number;
+        $user->total_experience = $request->total_experience;
+        $user->job_profile = $request->job_profile;
+        $user->fathername = $request->fathername;
+        $user->current_salary = $request->current_salary;
+
+        $user->save();
+
+        return redirect('adminProfile')->with('message','User Updated Successfully.');
     }
 }

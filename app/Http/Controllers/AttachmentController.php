@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attahcment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AttachmentController extends Controller
 {
@@ -81,5 +82,26 @@ class AttachmentController extends Controller
     public function destroy(Attahcment $attahcment)
     {
         //
+    }
+
+    public function deleteattachement(Request $request)
+    {
+        if($request->id){
+        $attahcment = Attahcment::findOrFail($request->id);
+        if(Storage::exists($attahcment->url)){
+            Storage::delete($attahcment->url);
+            $data = ['success' => 'File Deleted.'];
+            /*
+                Delete Multiple File like this way
+                Storage::delete(['upload/test.png', 'upload/test2.png']);
+            */
+        }else{
+            $data = ['success' => 'File does not exists.'];
+        }
+        $attahcment->delete();
+    }else{
+        $data = ['error' => 'File does not exists.'];
+    }
+        return response()->json($data);
     }
 }

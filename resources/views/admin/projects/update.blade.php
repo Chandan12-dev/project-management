@@ -31,6 +31,8 @@
                             <select id="status" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" type="text" name="status" required>
                                 <option value="hold" {{ ($project->status == 'hold')? 'selected' : '' }}>Hold</option>
                                 <option value="running" {{ ($project->status == 'running')? 'selected' : '' }}>Running</option>
+                                <option value="client_reply_waiting" {{ ($project->status == 'client_reply_waiting')? 'selected' : '' }}>Client Reply Waiting</option>
+                                <option value="failed" {{ ($project->status == 'failed')? 'selected' : '' }}>Failed</option>
                                 <option value="completed" {{ ($project->status == 'completed')? 'selected' : '' }}>Completed</option>
                             </select>
                         </div>
@@ -88,7 +90,7 @@
                                 <span id="filesList">
                                     <span id="files-names">
                                         @foreach($project->attachments as $attachment)
-                                        <span class="file-block"><span class="file-delete"><span>+</span></span><span class="name">{{ $attachment->name }}</span></span>
+                                        <span class="file-block"><span class="file-delete"><span>+</span></span><span class="name" data-url="{{ $attachment->url }}" data-id="{{ $attachment->id }}">{{ $attachment->name }}</span></span>
                                         @endforeach
                                     </span>
                                 </span>
@@ -112,6 +114,11 @@
     </div>
 </x-app-layout>
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $(document).ready(function() {
         $('.select2-multiple').select2({
             placeholder: 'Select an option'
@@ -135,10 +142,29 @@
             this.files = dt.files;
 
             // EventListener for delete button created
-            $('span.file-delete').click(function(){
-                let name = $(this).next('span.name').text();
-                // Suppress file name display
+        $('span.file-delete').click(function(){
+            let name = $(this).next('span.name').text();
+            let existingid = $(this).next('span.name').attr('data-id');
+
+            if(existingid != undefined && existingid != ''){
+                // let id = $(this).next('span.name').attr('data-id');
+                $.ajax({
+                type:'POST',
+                url:"{{ route('deleterAttachement') }}",
+                data:{id:existingid},
+                success:function(data){
+                        if($.isEmptyObject(data.error)){
+                            console.log($(this).parent().remove());
+                            // location.reload();
+                        }else{
+                            console.log(data.error);
+                        }
+                }
+                });
+            }else{
                 $(this).parent().remove();
+                // Suppress file name display
+            
                 for(let i = 0; i < dt.items.length; i++){
                     // Match file and name
                     if(name === dt.items[i].getAsFile().name){
@@ -149,7 +175,51 @@
                 }
                 // Updating input file files after deletion
                 document.getElementById('attachment').files = dt.files;
-            });
+            }
+
+            
+        });
+            
+        });
+
+        // EventListener for delete button created
+        $('span.file-delete').click(function(){
+            let name = $(this).next('span.name').text();
+            let existingUrl = $(this).next('span.name').attr('data-url');
+
+            if(existingUrl != undefined && existingUrl != ''){
+                let id = $(this).next('span.name').attr('data-id');
+                $.ajax({
+                type:'POST',
+                url:"{{ route('deleterAttachement') }}",
+                data:{url:existingUrl,id:id},
+                success:function(data){
+                        if($.isEmptyObject(data.error)){
+                            // console.log(data.success);
+                            $(this).parent().remove();
+                            // location.reload();
+                        }else{
+                            console.log(data.error);
+                        }
+                }
+                });
+            }else{
+                $(this).parent().remove();
+                // Suppress file name display
+            
+                for(let i = 0; i < dt.items.length; i++){
+                    // Match file and name
+                    if(name === dt.items[i].getAsFile().name){
+                        // Deleting file in DataTransfer object
+                        dt.items.remove(i);
+                        continue;
+                    }
+                }
+                // Updating input file files after deletion
+                document.getElementById('attachment').files = dt.files;
+            }
+
+            
         });
     });
 </script>

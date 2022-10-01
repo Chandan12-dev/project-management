@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectCategoryController;
-
+use App\Http\Controllers\AttachmentController;
 
 
     
@@ -14,10 +14,15 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/redirectAuthenticatedUsers', [RedirectAuthenticatedUsersController::class, 'home'])->name('redirectAuthenticatedUsers');
 
+    
+
     Route::group(['middleware' => ['checkRole:admin']],function(){
         Route::get('/adminDashboard', function () {
             return view('admin.adminDashboard');
         })->name('adminDashboard');
+
+        Route::get('/adminProfile', [UserController::class, 'adminProfile'])->name('adminProfile');
+        Route::PUT('/updateAdminProfile', [UserController::class, 'updateAdminProfile'])->name('updateAdminProfile');
 
         // User Routings
 
@@ -28,14 +33,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/user/update/{id}', [UserController::class, 'edit'])->name('updateUserForm');
         Route::PUT('/user/update/{id}', [UserController::class, 'update'])->name('updateUser');
         Route::DELETE('/user/{id}', [UserController::class, 'destroy'])->name('deleterUser');
+        Route::post('/activeUser', [UserController::class, 'activeUser'])->name('activeUser');
 
         // Project Category Routings
 
         Route::get('/projects/category', [ProjectCategoryController::class, 'index'])->name('projectCategory');
-        Route::post('/project/catgory/create', [ProjectCategoryController::class, 'store'])->name('createProjectCategory');
-        Route::get('/project/catgory/update/{id}', [ProjectCategoryController::class, 'edit'])->name('updateProjectCategoryForm');
-        Route::PUT('/project/catgory/updated/{id}', [ProjectCategoryController::class, 'update'])->name('updateProjectCategory');
-        Route::DELETE('/project/catgory/delete/{id}', [ProjectCategoryController::class, 'destroy'])->name('deleterProjectCategory');
+        Route::post('/project/caetgory/create', [ProjectCategoryController::class, 'store'])->name('createProjectCategory');
+        Route::get('/project/category/update/{id}', [ProjectCategoryController::class, 'edit'])->name('updateProjectCategoryForm');
+        Route::PUT('/project/category/updated/{id}', [ProjectCategoryController::class, 'update'])->name('updateProjectCategory');
+        Route::DELETE('/project/category/delete/{id}', [ProjectCategoryController::class, 'destroy'])->name('deleterProjectCategory');
 
 
         // Project Routings
@@ -48,8 +54,23 @@ Route::group(['middleware' => ['auth']], function () {
         Route::PUT('/project/update/{id}', [ProjectController::class, 'update'])->name('updateProject');
         Route::DELETE('/project/delete/{id}', [ProjectController::class, 'destroy'])->name('deleterProject');
         
+        // Attachemnt Routing
+
+        Route::post('/deleterAttachement', [AttachmentController::class, 'deleteattachement'])->name('deleterAttachement');
+        
     });
 
+    // User Role pages
 
-    
+    Route::group(['middleware' => ['checkRole:user']],function(){
+        Route::get('/userDashboard', function () {
+            return view('user.userDashboard');
+        })->name('userDashboard');
+
+        Route::get('/userProfile', [UserController::class, 'userProfile'])->name('userProfile');
+        Route::PUT('/updateUserProfile', [UserController::class, 'updateUserProfile'])->name('updateUserProfile');
+
+        Route::get('/userprojects', [ProjectController::class, 'userprojects'])->name('userprojects');
+        Route::get('/view-project/{id}', [ProjectController::class, 'show'])->name('viewprojects');
+    });
 });
