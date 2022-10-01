@@ -15,7 +15,7 @@
             
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <table class="table table-bordered table-hover ">
+                    <table class="table table-bordered table-hover table-striped nowrap filter-Table">
                         <thead class="thead-dark table-striped">
                             <th>Id</th>
                             <th>Date</th>
@@ -50,3 +50,10 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    $(document).ready(function() {
+        $('.select2-multiple').select2({
+            placeholder: 'Select an option'
+        });
+    });
+</script>

@@ -143,7 +143,7 @@ class ProjectController extends Controller
         ]);
         
         $UserIds = $request->assign_to;
-        $project->assignTo()->attach($UserIds);
+        $project->assignTo()->sync($UserIds);
         if($request->hasfile('attachment'))
          {
             foreach($request->file('attachment') as $key => $attachment)
@@ -192,25 +192,10 @@ class ProjectController extends Controller
         return redirect('projects')->with('success', 'Project is successfully deleted');
     }
 
-    // public function deleteattachement($url)
-    // {
-    //     if(Storage::exists($url)){
-    //         Storage::delete($url);
-
-    //         $data = ['success' => 'File Deleted.'];
-    //         /*
-    //             Delete Multiple File like this way
-    //             Storage::delete(['upload/test.png', 'upload/test2.png']);
-    //         */
-    //     }else{
-    //         $data = ['error' => 'File does not exists.'];
-    //     }
-
-    //     return response()->json($data);
-    // }
-
     public function userprojects(){
         $projects = Auth::user()->projects;
-        return view('user.projects.index',compact('projects'));
+        $users = User::Where('role','=','user')->orderBy('id','desc')->get();
+        $categories = ProjectCategory::orderBy('id','desc')->get();
+        return view('user.projects.index',compact('projects','users','categories'));
     }
 }

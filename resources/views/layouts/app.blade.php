@@ -22,6 +22,11 @@
         <script src="{{ asset('js/select2/select2.min.js') }}" defer></script>
         <script src="{{ asset('js/bootstrap-toggle.min.js') }}" defer></script>
         <script src="{{ asset('js/datepicker.js') }}" defer></script>
+        <script src="{{ asset('js/jquery.dataTables.min.js') }}" defer></script>
+        <script src="{{ asset('js/dataTables.bootstrap.min.js') }}" defer></script>
+        <script src="{{ asset('js/dataTables.fixedHeader.min.js') }}" defer></script>
+        <script src="{{ asset('js/dataTables.responsive.min.js') }}" defer></script>
+        <script src="{{ asset('js/responsive.bootstrap.min.js') }}" defer></script>
         <script src="{{ asset('js/custom.js') }}" defer></script>
         
     </head>
@@ -46,5 +51,19 @@
                 {{ $slot }}
             </main>
         </div>
+        <script>
+            $(document).ready(function() {
+                var table = $('.filter-Table').DataTable( {
+                    responsive: true,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+            
+                new $.fn.dataTable.FixedHeader( table );
+            } );
+        </script>
     </body>
 </html>

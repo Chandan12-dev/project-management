@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectCategoryController;
 use App\Http\Controllers\AttachmentController;
+use App\Http\Controllers\WorkreportController;
 
 
     
@@ -70,7 +71,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/userProfile', [UserController::class, 'userProfile'])->name('userProfile');
         Route::PUT('/updateUserProfile', [UserController::class, 'updateUserProfile'])->name('updateUserProfile');
 
+        // User Project Routing
         Route::get('/userprojects', [ProjectController::class, 'userprojects'])->name('userprojects');
         Route::get('/view-project/{id}', [ProjectController::class, 'show'])->name('viewprojects');
+
+        // User Workreport
+        Route::get('/myworksheet', [WorkreportController::class, 'userworkreport'])->name('myworksheet');
+        
     });
 });
