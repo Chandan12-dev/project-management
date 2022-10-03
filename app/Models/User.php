@@ -69,4 +69,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphMany(Attahcment::class, 'attachable');
     }
+
+    public function workreports()
+    {
+        return $this->hasMany(workreport::class, 'user_id');
+    }
 }

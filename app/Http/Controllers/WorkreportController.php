@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\workreport;
 use Illuminate\Http\Request;
+use App\Models\Project;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class WorkreportController extends Controller
 {
@@ -14,7 +18,8 @@ class WorkreportController extends Controller
      */
     public function index()
     {
-        //
+        $workreports = workreport::with('project','user')->orderBy('id','desc')->paginate(50);
+        return view('admin.workreport.index', compact('workreports'));
     }
 
     /**
@@ -24,7 +29,8 @@ class WorkreportController extends Controller
      */
     public function create()
     {
-        //
+        $projects = Auth::user()->projects;
+        return view('user.workreport.create',compact('projects'));
     }
 
     /**
@@ -81,5 +87,13 @@ class WorkreportController extends Controller
     public function destroy(workreport $workreport)
     {
         //
+    }
+
+    public function UserWorkReport()
+    {
+        // $user_id = Auth::user()->user_id;
+        // $workreports = workreport::with('project')->where('user_id',$user_id)->orderBy('id','desc')->paginate(50);
+        $workreports = Auth::user()->workreports;
+        return view('user.workreport.index', compact('workreports'));
     }
 }

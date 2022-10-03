@@ -51,19 +51,5 @@
                 {{ $slot }}
             </main>
         </div>
-        <script>
-            $(document).ready(function() {
-                var table = $('.filter-Table').DataTable( {
-                    responsive: true,
-                    "bPaginate": false,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bInfo": false,
-                    "bAutoWidth": false
-                } );
-            
-                new $.fn.dataTable.FixedHeader( table );
-            } );
-        </script>
     </body>
 </html>

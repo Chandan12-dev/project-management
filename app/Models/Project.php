@@ -43,5 +43,9 @@ class Project extends Model
         return $this->morphMany(Attahcment::class, 'attachable');
     }
 
+    public function workreports()
+    {
+        return $this->hasMany(workreport::class, 'project_id');
+    }
     
 }

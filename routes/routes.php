@@ -76,7 +76,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/view-project/{id}', [ProjectController::class, 'show'])->name('viewprojects');
 
         // User Workreport
-        Route::get('/myworksheet', [WorkreportController::class, 'userworkreport'])->name('myworksheet');
+        Route::get('/workreport', [WorkreportController::class, 'UserWorkReport'])->name('workreport');
+        Route::get('/workreport/create', [WorkreportController::class, 'create'])->name('WorkReportCreateForm');
+        Route::post('/workreport/create', [WorkreportController::class, 'store'])->name('WorkReportCreate');
+        Route::DELETE('/workreport/delete/{id}', [WorkreportController::class, 'destroy'])->name('DeleteWorkReport');
         
     });
 });
