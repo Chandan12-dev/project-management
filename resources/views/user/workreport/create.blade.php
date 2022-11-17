@@ -30,7 +30,7 @@
                             <x-label for="start_time" :value="__('Start Time')" />
                             <div class="relative cs-form">
                                 <x-input type="text" name="start_time" class="block mt-1 w-full" placeholder="Select Start time" onfocus="this.type = 'time'" onblur="this.type = 'text'" required />
-                            </div>
+                            </div> 
                         </div>
                         <!-- End Date -->
                         <div class="mt-2 col-md-6">
