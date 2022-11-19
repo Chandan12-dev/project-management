@@ -72,6 +72,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function workreports()
     {
-        return $this->hasMany(workreport::class, 'user_id');
+        return $this->hasMany(workreport::class, 'user_id', 'id');
     }
 }

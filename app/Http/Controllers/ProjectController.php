@@ -20,7 +20,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('assignBy','category')->orderBy('id','desc')->paginate(50);
+        $projects = Project::with('assignBy','category','workreports')->orderBy('id','desc')->paginate(50);
         return view('admin.projects.index',compact('projects'));
     }
 

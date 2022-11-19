@@ -43,7 +43,13 @@
                                     </tr>
                                     <tr>
                                         <td><x-label for="name" :value="__('Total Work by team')" /></td>
-                                        <td></td>
+                                        <td>
+                                        <?php $duration = 0; 
+                                        foreach($project->workreports as $workreport):
+                                            $duration += $workreport->duration;
+                                        endforeach; ?>
+                                        {{ (int)($duration / 3600) }} Hours  {{ (int)(($duration % 3600) / 60) }} Minutes
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><x-label for="name" :value="__('Developers Work on this project')" /></td>
@@ -71,7 +77,15 @@
                                 @foreach($project->assignTo as $users)
                                     <tr>
                                         <td>{{ ucfirst($users->name) }}</td>
-                                        <td></td>
+                                        <td>
+                                        <?php $duration = 0; 
+                                        foreach($project->workreports as $workreport):
+                                            if($workreport->user_id == $users->id):
+                                                $duration += $workreport->duration;
+                                            endif;
+                                        endforeach; ?>
+                                        {{ (int)($duration / 3600) }} Hours  {{ (int)(($duration % 3600) / 60) }} Minutes
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

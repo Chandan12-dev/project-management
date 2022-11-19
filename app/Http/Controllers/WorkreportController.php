@@ -106,9 +106,11 @@ class WorkreportController extends Controller
      * @param  \App\Models\workreport  $workreport
      * @return \Illuminate\Http\Response
      */
-    public function destroy(workreport $workreport)
+    public function destroy($id)
     {
-        //
+        $workreport = workreport::findOrFail($id);
+        $workreport->delete();
+        return redirect('workreport')->with('success', 'WorkReport deleted successfully.');
     }
 
     public function UserWorkReport()

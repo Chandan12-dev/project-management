@@ -35,8 +35,8 @@
                                <td>{{ $report->id }}</td>
                                <td>{{ $report->report_date }}</td>
                                <td><a href="{{ route('viewprojects', optional($report->project)->id) }}">{{ optional($report->project)->name }}</a></td>
-                               <td>{{ $report->start_time }}</td>
-                               <td>{{ $report->end_time }}</td>
+                               <td>{{ date('h:i A',strtotime($report->start_time)) }}</td>
+                               <td>{{ date('h:i A',strtotime($report->end_time)) }}</td>
                                <td> {{ (int)($report->duration / 3600) }} Hours  {{ (int)(($report->duration % 3600) / 60) }} Minutes</td>
                                <td>{{ $report->comment }}</td>
                                <td>

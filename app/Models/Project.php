@@ -45,7 +45,8 @@ class Project extends Model
 
     public function workreports()
     {
-        return $this->hasMany(workreport::class, 'project_id');
+        return $this->hasMany(workreport::class, 'project_id', 'id');
     }
+
     
 }
