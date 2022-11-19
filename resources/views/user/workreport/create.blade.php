@@ -41,8 +41,8 @@
                         </div>
                         <!-- Comments -->
                         <div class="mt-2 col-md-12">
-                            <x-label for="comments" :value="__('Comments')" />
-                            <textarea id="comments" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" rows="6" type="text" name="comments" autocomplete="off" required></textarea>
+                            <x-label for="comment" :value="__('Comments')" />
+                            <textarea id="comment" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" rows="6" type="text" name="comment" autocomplete="off" required></textarea>
                         </div>
                         </div>
                         <div class="flex items-center justify-end mt-2">

@@ -41,7 +41,29 @@ class WorkreportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'project_id' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'comment' => 'required',
+        ]);
+        $reportDate = date('Y-m-d');
+        $start_time = date('H:i:s',strtotime($request->start_time));
+        $end_time = date('H:i:s',strtotime($request->end_time));
+        $duration = strtotime($request->end_time) - strtotime($request->start_time);
+        $user_id = Auth::user()->id;
+        $workreport = workreport::create([
+            'project_id' => $request->project_id,
+            'user_id' => $user_id,
+            'duration' => $duration,
+            'report_date' => $reportDate,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'comment' => $request->comment,
+        ]);
+        
+        return redirect('workreport')->with('message','WorkPreport Submitted Successfully.');
     }
 
     /**

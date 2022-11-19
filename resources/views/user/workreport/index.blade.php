@@ -4,6 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('WorK Reports') }}
             </h2>
+            <x-nav-button :href="route('WorkReportCreateForm')" class="navigation-btn">
+                {{ __('Add Workreport') }}
+            </x-nav-button>
         </div>
     </x-slot>
 
@@ -34,8 +37,8 @@
                                <td><a href="{{ route('viewprojects', optional($report->project)->id) }}">{{ optional($report->project)->name }}</a></td>
                                <td>{{ $report->start_time }}</td>
                                <td>{{ $report->end_time }}</td>
-                               <td>{{ $report->duration }}</td>
-                               <td>{{ $report->comments }}</td>
+                               <td> {{ (int)($report->duration / 3600) }} Hours  {{ (int)(($report->duration % 3600) / 60) }} Minutes</td>
+                               <td>{{ $report->comment }}</td>
                                <td>
                                     <div class="flex align-items-center">
                                         <x-delete-buttons :action="route('DeleteWorkReport',$report->id)" />
